@@ -1,18 +1,22 @@
 package com.example.mycoffeeshop
 
 import android.annotation.SuppressLint
+import android.graphics.Paint.Align
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
@@ -32,6 +36,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -40,6 +45,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -48,92 +54,106 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.PopupProperties
 import androidx.navigation.NavHostController
 import com.example.mycoffeeshop.ui.theme.FontTittle
 import com.example.mycoffeeshop.ui.theme.MyDarkPink
-
+import com.example.mycoffeeshop.ui.theme.Purple80
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Portada(navController: NavHostController) {
-
-    val menuItems = listOf(
-        DropdownMenuItemData("Compartir", Icons.Default.Share),
-        DropdownMenuItemData("Álbum", Icons.Default.Lock)
-    )
-
     var isMenuVisible by remember { mutableStateOf(false) }
-        Column(modifier = Modifier.fillMaxSize()) {
-            TopAppBar(
-                title = {
-                    Text(text = "CoffeeShops", color = Color.White ,fontSize = 20.sp)
-                },
 
-                navigationIcon = {
-                    IconButton(
-                        onClick = {
-                        }
-                    ) {
-                        Icon(imageVector = Icons.Default.Menu, contentDescription = null, tint = Color.White)
+
+    Scaffold(topBar = {
+        TopAppBar(
+            title = {
+                Text(text = "CoffeeShops", color = Color.White, fontSize = 20.sp)
+            },
+            navigationIcon = {
+                IconButton(
+                    onClick = {
                     }
-                },
-                actions = {
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Menu,
+                        contentDescription = null,
+                        tint = Color.White
+                    )
+                }
+            },
+            actions = {
+                Row (){
                     IconButton(
                         onClick = {
                             isMenuVisible = true
                         }
                     ) {
-                        Icon(imageVector = Icons.Default.MoreVert, contentDescription = null, tint = Color.White)
-                    }
-                },
-                colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = MyDarkPink)
-            )
-            DropdownMenu(
-                expanded = isMenuVisible,
-                onDismissRequest = {
-                    isMenuVisible = false
-                },
-            ) {
-                menuItems.forEach {items ->
-                    DropdownMenuItem(text = {Row(
-                    ) {
                         Icon(
-                            imageVector = items.icon,
+                            imageVector = Icons.Default.MoreVert,
                             contentDescription = null,
-                            tint = Color.Black
+                            tint = Color.White
                         )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(
-                            text = items.text,
-                            color = Color.Black,
-                            fontSize = 16.sp
-                        )}
-                    },
-                        onClick = {
+                    }
+                }
+                Row (){
+                    DropdownMenu(
+                        expanded = isMenuVisible,
+                        onDismissRequest = {
                             isMenuVisible = false
                         },
                         modifier = Modifier.background(MyDarkPink)
-                    )
-
+                    ) {
+                        DropdownMenuItem(
+                            text = {
+                                Text(
+                                    text = "Compartir",
+                                    color = Color.Black,
+                                    fontSize = 16.sp
+                                )
+                            },
+                            onClick = { isMenuVisible = false },
+                            leadingIcon = {Icon(
+                                imageVector = Icons.Default.Share,
+                                contentDescription = null,
+                                tint = Color.Black
+                            ) },
+                        )
+                        DropdownMenuItem(
+                            text = {
+                                Text(
+                                    text = "Album",
+                                    color = Color.Black,
+                                    fontSize = 16.sp
+                                )
+                            },
+                            onClick = { isMenuVisible = false },
+                            leadingIcon = {Icon(
+                                imageVector = Icons.Default.Lock,
+                                contentDescription = null,
+                                tint = Color.Black
+                            ) },
+                        )
+                    }
                 }
-            }
-
-            LazyColumn (
-            ){
+            },
+            colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = MyDarkPink)
+        )
+    }) {
+        Column (modifier = Modifier.padding(top = 58.dp)){
+            LazyColumn() {
                 items(getCardData()) { card ->
                     ItemCard(cardData = card, navController = navController)
                 }
             }
         }
     }
-
-
-data class DropdownMenuItemData(val text: String, val icon: ImageVector)
-
+}
 data class CardData(
-    var name:String,
+    var name: String,
     var adress: String,
     @DrawableRes var photo: Int
 )
@@ -184,10 +204,11 @@ fun ItemCard(cardData: CardData, navController: NavHostController) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(10.dp).clickable {
-                navController.navigate("Comentarios")
+            .padding(10.dp)
+            .clickable {
+                navController.navigate("Comentarios/${cardData.name}")
             },
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFFFE4D6)),
+        colors = CardDefaults.cardColors(containerColor = Purple80),
         elevation = CardDefaults.cardElevation(10.dp)
     ) {
         Image(
@@ -198,26 +219,33 @@ fun ItemCard(cardData: CardData, navController: NavHostController) {
                 .height(200.dp),
             contentScale = ContentScale.Crop
         )
-        Column (Modifier.padding(start = 10.dp)){
+        Column {
             Spacer(modifier = Modifier.height(15.dp))
-            Row (Modifier.fillMaxWidth()){
-                Text(text = cardData.name,
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(start = 10.dp)
+            ) {
+                Text(
+                    text = cardData.name,
                     fontFamily = FontTittle,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 30.sp)
+                    fontSize = 30.sp
+                )
             }
 
-            RatingBar(
+            RatingBar(modifier = Modifier.padding(start = 10.dp),
                 rating = rating,
                 onRatingChanged = { newRating ->
                     rating = newRating
                 }
             )
             Spacer(modifier = Modifier.height(25.dp))
-            Text(text = cardData.adress)
+            Text(text = cardData.adress, modifier = Modifier.padding(start = 10.dp))
             Spacer(modifier = Modifier.height(5.dp))
             Divider()
-            Button(onClick = {  },
+            Button(
+                onClick = { },
                 colors = ButtonDefaults.filledTonalButtonColors(
                     containerColor = Color.Transparent, contentColor = Color(0xFFD988B9)
                 )
@@ -231,13 +259,14 @@ fun ItemCard(cardData: CardData, navController: NavHostController) {
 
 
 @Composable
-fun RatingBar (modifier: Modifier = Modifier,
-               rating: Int = 0,
-               stars: Int = 5,
-               starsColor: Color = Color.Black,
-               onRatingChanged: (Int) -> Unit
+fun RatingBar(
+    modifier: Modifier = Modifier,
+    rating: Int = 0,
+    stars: Int = 5,
+    starsColor: Color = Color.Black,
+    onRatingChanged: (Int) -> Unit
 ) {
-    Row (modifier = modifier){
+    Row(modifier = modifier) {
         repeat(stars) { starIndex ->
             Icon(
                 imageVector = if (starIndex < rating) Icons.Outlined.Star else Icons.Outlined.Clear,

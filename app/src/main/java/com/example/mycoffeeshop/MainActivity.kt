@@ -26,7 +26,12 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
                     NavHost(navController = navController, startDestination = "Portada") {
                         composable("Portada") { Portada(navController) }
-                        composable("Comentarios") { Comentarios(nombreCafeteria = "yo")}
+                        composable(
+                            route = "Comentarios/{cafeteriaName}",
+                            arguments = listOf(navArgument("cafeteriaName") { type = NavType.StringType })
+                        ) { backStackEntry ->
+                            Comentarios(backStackEntry.arguments?.getString("cafeteriaName") ?: "", navController)
+                        }
 
                     }
                 }
