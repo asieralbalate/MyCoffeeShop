@@ -7,6 +7,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -66,8 +67,6 @@ import com.example.mycoffeeshop.ui.theme.Purple80
 @Composable
 fun Portada(navController: NavHostController) {
     var isMenuVisible by remember { mutableStateOf(false) }
-
-
     Scaffold(topBar = {
         TopAppBar(
             title = {
@@ -143,7 +142,7 @@ fun Portada(navController: NavHostController) {
             colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = MyDarkPink)
         )
     }) {
-        Column (modifier = Modifier.padding(top = 58.dp)){
+        Box (modifier = Modifier.padding(top = it.calculateTopPadding())){
             LazyColumn() {
                 items(getCardData()) { card ->
                     ItemCard(cardData = card, navController = navController)
@@ -269,9 +268,9 @@ fun RatingBar(
     Row(modifier = modifier) {
         repeat(stars) { starIndex ->
             Icon(
-                imageVector = if (starIndex < rating) Icons.Outlined.Star else Icons.Outlined.Clear,
+                imageVector = Icons.Outlined.Star,
                 contentDescription = null,
-                tint = starsColor,
+                tint = if (starIndex < rating) Color.Black else Color.White,
                 modifier = Modifier
                     .padding(end = 10.dp)
                     .clickable { onRatingChanged(starIndex + 1) }

@@ -148,8 +148,7 @@ fun Comentarios(navControllerName: String, navController: NavHostController){
             colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = MyDarkPink)
         )
     }) {
-        Column() {
-            Spacer(modifier = Modifier.height(70.dp))
+        Column (modifier = Modifier.padding(top = it.calculateTopPadding())){
             Row(Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.Center) {
                 Text(
                     text = nombreCafeteria,
@@ -174,8 +173,6 @@ fun Comentarios(navControllerName: String, navController: NavHostController){
                             textAlign = TextAlign.Start,
                             modifier = Modifier.padding(start = 8.dp, top = 8.dp, bottom = 8.dp))
                     }
-
-
                 }
 
                 val scrollOffset = listState.firstVisibleItemScrollOffset
@@ -186,6 +183,7 @@ fun Comentarios(navControllerName: String, navController: NavHostController){
                 }
 
             }
+
         }
         Box(modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.BottomCenter) {
