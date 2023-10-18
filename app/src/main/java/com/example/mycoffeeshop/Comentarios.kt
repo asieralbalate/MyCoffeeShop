@@ -48,7 +48,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.mycoffeeshop.ui.theme.FontTittle
 import com.example.mycoffeeshop.ui.theme.MyDarkPink
+import com.example.mycoffeeshop.ui.theme.Pink40
 import com.example.mycoffeeshop.ui.theme.Pink80
+import com.example.mycoffeeshop.ui.theme.Purple40
 import com.example.mycoffeeshop.ui.theme.Purple80
 
 @SuppressLint("RememberReturnType", "UnusedMaterial3ScaffoldPaddingParameter")
@@ -110,13 +112,13 @@ fun Comentarios(navControllerName: String, navController: NavHostController){
                         onDismissRequest = {
                             isMenuVisible = false
                         },
-                        modifier = Modifier.background(MyDarkPink)
+                        modifier = Modifier.background(Purple40)
                     ) {
                         DropdownMenuItem(
                             text = {
                                 Text(
                                     text = "Compartir",
-                                    color = Color.Black,
+                                    color = Color.White,
                                     fontSize = 16.sp
                                 )
                             },
@@ -124,14 +126,14 @@ fun Comentarios(navControllerName: String, navController: NavHostController){
                             leadingIcon = {Icon(
                                 imageVector = Icons.Default.Share,
                                 contentDescription = null,
-                                tint = Color.Black
+                                tint = Color.White
                             ) },
                         )
                         DropdownMenuItem(
                             text = {
                                 Text(
                                     text = "Album",
-                                    color = Color.Black,
+                                    color = Color.White,
                                     fontSize = 16.sp
                                 )
                             },
@@ -139,13 +141,13 @@ fun Comentarios(navControllerName: String, navController: NavHostController){
                             leadingIcon = {Icon(
                                 imageVector = Icons.Default.Lock,
                                 contentDescription = null,
-                                tint = Color.Black
+                                tint = Color.White
                             ) },
                         )
                     }
                 }
             },
-            colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = MyDarkPink)
+            colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = Purple40)
         )
     }) {
         Column (modifier = Modifier.padding(top = it.calculateTopPadding())){
@@ -193,7 +195,7 @@ fun Comentarios(navControllerName: String, navController: NavHostController){
                     modifier = Modifier
                         .padding(16.dp)
                         .height(48.dp),
-                    colors = ButtonDefaults.buttonColors(Pink80),
+                    colors = ButtonDefaults.buttonColors(Purple40),
                 ) {
                     Text(text = "Add new comment")
                 }

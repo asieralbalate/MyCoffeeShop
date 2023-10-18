@@ -59,6 +59,7 @@ import androidx.compose.ui.window.PopupProperties
 import androidx.navigation.NavHostController
 import com.example.mycoffeeshop.ui.theme.FontTittle
 import com.example.mycoffeeshop.ui.theme.MyDarkPink
+import com.example.mycoffeeshop.ui.theme.Purple40
 import com.example.mycoffeeshop.ui.theme.Purple80
 
 
@@ -104,13 +105,13 @@ fun Portada(navController: NavHostController) {
                         onDismissRequest = {
                             isMenuVisible = false
                         },
-                        modifier = Modifier.background(MyDarkPink)
+                        modifier = Modifier.background(Purple40)
                     ) {
                         DropdownMenuItem(
                             text = {
                                 Text(
                                     text = "Compartir",
-                                    color = Color.Black,
+                                    color = Color.White,
                                     fontSize = 16.sp
                                 )
                             },
@@ -118,14 +119,14 @@ fun Portada(navController: NavHostController) {
                             leadingIcon = {Icon(
                                 imageVector = Icons.Default.Share,
                                 contentDescription = null,
-                                tint = Color.Black
+                                tint = Color.White
                             ) },
                         )
                         DropdownMenuItem(
                             text = {
                                 Text(
                                     text = "Album",
-                                    color = Color.Black,
+                                    color = Color.White,
                                     fontSize = 16.sp
                                 )
                             },
@@ -133,13 +134,13 @@ fun Portada(navController: NavHostController) {
                             leadingIcon = {Icon(
                                 imageVector = Icons.Default.Lock,
                                 contentDescription = null,
-                                tint = Color.Black
+                                tint = Color.White
                             ) },
                         )
                     }
                 }
             },
-            colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = MyDarkPink)
+            colors = TopAppBarDefaults.mediumTopAppBarColors(containerColor = Purple40)
         )
     }) {
         Box (modifier = Modifier.padding(top = it.calculateTopPadding())){
