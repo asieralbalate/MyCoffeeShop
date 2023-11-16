@@ -3,6 +3,7 @@ package com.example.mycoffeeshop
 import android.annotation.SuppressLint
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,7 @@ import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -40,7 +42,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -57,6 +61,7 @@ import com.example.mycoffeeshop.ui.theme.Purple80
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun Comentarios(navControllerName: String, navController: NavHostController){
+    var selectedCommentIndex by remember { mutableStateOf(-1) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val nombreCafeteria = navBackStackEntry?.arguments?.getString("cafeteriaName") ?: ""
     var isMenuVisible by remember { mutableStateOf(false) }
@@ -165,7 +170,15 @@ fun Comentarios(navControllerName: String, navController: NavHostController){
             ) {
                 items(comments.size) { index ->
                     Card(
-                        modifier = Modifier.padding(6.dp),
+                        modifier = Modifier
+                            .padding(6.dp)
+
+                            .graphicsLayer {
+                                this.scaleX = if (index == selectedCommentIndex) 1.1f else 1f
+                                this.scaleY = if (index == selectedCommentIndex) 1.1f else 1f
+                            }.clickable {
+                                selectedCommentIndex = index
+                            }.shadow(4.dp, shape = MaterialTheme.shapes.medium),
                         elevation = CardDefaults.cardElevation(6.dp),
                         colors = CardDefaults.cardColors(Purple80)
                     ) {
