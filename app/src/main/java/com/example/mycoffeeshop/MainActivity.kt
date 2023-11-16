@@ -32,7 +32,6 @@ class MainActivity : ComponentActivity() {
                         ) { backStackEntry ->
                             Comentarios(backStackEntry.arguments?.getString("cafeteriaName") ?: "", navController)
                         }
-
                     }
                 }
             }
