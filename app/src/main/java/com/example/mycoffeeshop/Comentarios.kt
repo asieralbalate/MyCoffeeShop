@@ -171,13 +171,17 @@ fun Comentarios(navControllerName: String, navController: NavHostController){
                 items(comments.size) { index ->
                     Card(
                         modifier = Modifier
-                            .padding(6.dp)
+                            .padding(8.dp)
 
                             .graphicsLayer {
-                                this.scaleX = if (index == selectedCommentIndex) 1.1f else 1f
-                                this.scaleY = if (index == selectedCommentIndex) 1.1f else 1f
+                                this.scaleX = if (index == selectedCommentIndex) 1.05f else 1f
+                                this.scaleY = if (index == selectedCommentIndex) 1.05f else 1f
                             }.clickable {
-                                selectedCommentIndex = index
+                                if (selectedCommentIndex == index) {
+                                    selectedCommentIndex = -1
+                                } else {
+                                    selectedCommentIndex = index
+                                }
                             }.shadow(4.dp, shape = MaterialTheme.shapes.medium),
                         elevation = CardDefaults.cardElevation(6.dp),
                         colors = CardDefaults.cardColors(Purple80)
